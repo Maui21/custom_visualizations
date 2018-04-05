@@ -64,7 +64,7 @@
         },
         chart: {
           polar: true,
-          type: 'area'
+          type: 'line'
         },
         title: {text: config.chartName},
         xAxis: {
