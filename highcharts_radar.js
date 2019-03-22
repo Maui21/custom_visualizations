@@ -37,13 +37,21 @@
           format: measure.value_format
         }
       });
-
+      
+      function sumTotals(total, num) {
+        return total + num;
+      }
+      let measureTotals = data.map(function(row){
+        return measures.map(function(measure){
+            return row[measure.name].value
+        }).reduce(sumTotals)
+      })
       let series = data.map(function(row, i) {
         return {
           name: row[dimensions[0].name].value, 
           pointPlacement: 'on',
           data: measures.map(function(measure) {
-            return row[measure.name].value
+            return Math.round((row[measure.name].value / measureTotals[i]) * 1000)/10
           }),
           tooltip: {
             pointFormatter: function() {
@@ -51,39 +59,8 @@
               let valueFormat = null
               valueFormatsList.forEach(function(m) {if (category === m.label) {valueFormat = m.format}})
               let format = formatType(valueFormat)
-              return `<span style="color:${this.series.color}">${this.series.name}: <b>${format(this.y)}</b><br/>`
+              return `<span style="color:${this.series.color}">${this.series.name}: <b>${format(this.y)}%</b><br/>`
             }
           },
         }
       })
-
-      let options = {
-        colors: config.color_range,
-        credits: {
-          enabled: false
-        },
-        chart: {
-          polar: true,
-          type: 'line'
-        },
-        title: {text: config.chartName},
-        xAxis: {
-          categories: measureLabels
-        },
-        yAxis: {
-          gridLineInterpolation: 'circle',
-          min: 0,
-          labels: {
-            format: '{value}'
-          },
-        },
-        tooltip: {
-          shared: true,
-        },
-        series: series,
-      }
-      let myChart = Highcharts.chart(element, options);
-    }
-  };
-  looker.plugins.visualizations.add(viz);
-}());
