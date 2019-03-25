@@ -64,3 +64,36 @@
           },
         }
       })
+
+      let options = {
+        colors: config.color_range,
+        credits: {
+          enabled: false
+        },
+        chart: {
+          polar: true,
+          type: 'line'
+        },
+        title: {text: config.chartName},
+        xAxis: {
+          categories: measureLabels
+        },
+        yAxis: {
+          gridLineInterpolation: 'circle',
+          min: -25,
+          tickInterval: 25,
+          max: 100,
+          labels: {
+            format: '{value}%'
+          },
+        },
+        tooltip: {
+          shared: true,
+        },
+        series: series,
+      }
+      let myChart = Highcharts.chart(element, options);
+    }
+  };
+  looker.plugins.visualizations.add(viz);
+}());
