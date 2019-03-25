@@ -37,21 +37,13 @@
           format: measure.value_format
         }
       });
-      
-      function sumTotals(total, num) {
-        return total + num;
-      }
-      let measureTotals = data.map(function(row){
-        return measures.map(function(measure){
-            return row[measure.name].value
-        }).reduce(sumTotals)
-      })
+
       let series = data.map(function(row, i) {
         return {
           name: row[dimensions[0].name].value, 
           pointPlacement: 'on',
           data: measures.map(function(measure) {
-            return Math.round((row[measure.name].value / measureTotals[i]) * 1000)/10
+            return row[measure.name].value
           }),
           tooltip: {
             pointFormatter: function() {
@@ -80,9 +72,9 @@
         },
         yAxis: {
           gridLineInterpolation: 'circle',
-          min: -25,
-          tickInterval: 25,
-          max: 100,
+          min: -0.25,
+          tickInterval: 0.25,
+          max: 1,
           labels: {
             format: '{value}%'
           },
