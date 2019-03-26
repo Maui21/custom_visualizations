@@ -43,7 +43,7 @@
           name: row[dimensions[0].name].value, 
           pointPlacement: 'on',
           data: measures.map(function(measure) {
-            return row[measure.name].value
+            return row[measure.name].value * 100
           }),
           tooltip: {
             pointFormatter: function() {
@@ -72,9 +72,9 @@
         },
         yAxis: {
           gridLineInterpolation: 'circle',
-          min: -0.25,
-          tickInterval: 0.25,
-          max: 1,
+          min: -25,
+          tickInterval: 25,
+          max: 100,
           labels: {
             format: '{value}%'
           },
